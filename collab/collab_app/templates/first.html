@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+</head>
+<body>
+    <h1>API CALLS DEMO</h1>
+    <button onclick="getDataUsingFetch()">Fetch Get Call</button><br/><br/>
+
+    <!-- <script>
+        function getDataUsingFetch() {
+            fetch('https://parseapi/back4app.com/classes/Student', {
+                method: "GET",
+                headers: {
+                    "Content-type": "application/json; charset=UTF-8",
+                    "X-Parse-Application-Id": "vQ0kuECBIH9TJU2tLmAdToFB95c3uYvHjh9JY5yG",
+                    "X-Parse-REST-API-Key" : "o2HHCkHWp7wG73Q1PETbDwY4FgRObuh6xSJyXT8S"
+                }
+            })
+        .then(response => response.json())
+        .then(json => console.log(json))
+        .catch(err => console.log(err));
+        }
+    </script> -->
+    <script>
+    function getDataUsingFetch() {
+   		fetch('https://parseapi.back4app.com/classes/Drives', {
+	 	method: "GET",
+	 	headers: {"Content-type": "application/json;charset=UTF-8",
+          "X-Parse-Application-Id":"vQ0kuECBIH9TJU2tLmAdToFB95c3uYvHjh9JY5yG", 
+          "X-Parse-REST-API-Key":"o2HHCkHWp7wG73Q1PETbDwY4FgRObuh6xSJyXT8S"}
+		})
+		.then(response => response.json())
+		.then(json => console.log(json))
+		.catch(err => console.log(err));
+    }
+
+    </script>
+</body>
+</html>
