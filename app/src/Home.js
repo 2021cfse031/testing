@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import PieChart from './Piechart';
 import axios from "axios";
 
-const url = 'http://127.0.0.1:8000/api/drives/'
+const url = 'http://127.0.0.1:8000/drivelist/'
 
 const Home = () => {
 
@@ -13,24 +13,20 @@ const Home = () => {
     const date = `${currentdate.getFullYear()}-${currentdate.getMonth()+1}-${currentdate.getDate()}`;
 
     useEffect(() => {
-        axios
-            .get(url, {
-                headers: {
-                Accept: "application/json",
-                "Content-Type": "application/json;charset=UTF-8",
-                },
-            })
-            .then((response) => {
-                console.log(response)
-                this.setdrivesData(response)
-            })
+        fetch(url)
+        .then(res => { 
+            return res.json() })
+        .then(res => {
+            setdrivesData(res);
+            console.log(res);
+            console.log('drivedata', drivesdata);
+        } )
     }, []);
 
     return ( 
         <div className="home">
         <h1> <span className="heading"> Dashboard </span></h1>
         <div className="container">
-
             <div className="Flex">
                 <PieChart />
                 <div>

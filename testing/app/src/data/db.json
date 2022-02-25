@@ -1,0 +1,38 @@
+{
+  "drives": [
+    {
+      "dateofvaccine": "2022-01-05",
+      "place": "Gandhi Hall",
+      "vaccinecount": "100",
+      "driveId": 1,
+      "id": 1
+    },
+    {
+      "dateofvaccine": "2022-01-13",
+      "place": "Nehru Bhavan",
+      "vaccinecount": "250",
+      "driveId": 2,
+      "id": 2
+    },
+    {
+      "dateofvaccine": "2021-12-28",
+      "place": "Gandhi Hall",
+      "vaccinecount": "100",
+      "driveId": 3,
+      "id": 3
+    },
+    {
+      "dateofvaccine": "2022-02-14",
+      "place": "Nehru Bhavan",
+      "vaccinecount": "250",
+      "driveId": 4,
+      "id": 4
+    },
+    {
+      "dateofvaccine": "2022-02-23",
+      "place": "Gandhi Hall",
+      "vaccinecount": "250",
+      "id": 5
+    }
+  ]
+}

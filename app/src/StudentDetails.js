@@ -51,7 +51,7 @@ const StudentDetails = () => {
         });
     
         useEffect(() => {
-          fetch("http://localhost:8001/students")
+          fetch("http://127.0.0.1:8000/studentlist/")
             .then((response) => response.json())
             .then((json) => setData(json));
         }, []);

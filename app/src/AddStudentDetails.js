@@ -5,8 +5,9 @@ const AddStudentDetails = () => {
 
    const [addingSuccess, setAddingSuccess] = useState('Please Add Student Details');
 
-                const inititalValues = { name:"", classs:"", vaccinedate:"", vaccinename:"", status:""  };
+                const inititalValues = { id:0, name:"", classs:0, vaccinedate:"", vaccinename:"", status:""  };
                 const [formValues, setFormValues] = useState(inititalValues);
+                const [formData, setformData] = useState([]);
                 const [formErrors, setFormErrors] = useState({});
                 const [isSubmit, setIsSubmit] = useState(false);
       
@@ -18,13 +19,21 @@ const AddStudentDetails = () => {
                 const handleSubmit = (e) => {
                     e.preventDefault();
                     setFormErrors(validate(formValues));
+                    let dump = {
+                        "id":formValues.id,
+                        "name":formValues.name,  
+                        "classs":parseInt(formValues.classs),  
+                        "vaccinedate":formValues.vaccinedate,
+                        "status":formValues.status,
+                        "vaccinename":formValues.vaccinename
+                    }
                     console.log(formErrors);
                     if (formValues.name && formValues.classs && formValues.vaccinedate && formValues.vaccinename && formValues.status) {                    
                     setIsSubmit(true);
-                    fetch('http://localhost:8001/students', {
+                    fetch('http://127.0.0.1:8000/studentlist/', {
                       method:'POST',
                       headers: { "Content-Type": "application/json" },
-                      body: JSON.stringify(formValues),
+                      body: JSON.stringify(dump),
                     }).then((res) => {
                         console.log(res);
                         setAddingSuccess('Successfully Added Student Data');
@@ -33,6 +42,17 @@ const AddStudentDetails = () => {
                         console.log("Please fill all details")
                     }
                 };
+
+                useEffect(() => {
+                    fetch('http://127.0.0.1:8000/studentlist/')
+                    .then(res => { 
+                        return res.json() })
+                    .then(data => {
+                        // console.log('data',data);
+                        formValues.id = data.length + 1;
+                        // console.log('formdata',formValues);
+                    } )
+                }, []);
 
                 useEffect(() => {
                     console.log(formErrors);

@@ -14,7 +14,7 @@ const ManageVaccinationDrive = () => {
        }, []);
 
     function getList() {
-        fetch("http://localhost:8000/drives")
+        fetch("http://127.0.0.1:8000/drivelist/ ")
            .then(res =>{
               return res.json();
             }).then(data => {
@@ -27,8 +27,8 @@ const ManageVaccinationDrive = () => {
             })
     }   
 
-    function deleteDrive(id) {
-        fetch(`http://localhost:8000/drives/${id}`, {
+    function deleteDrive(id) {        
+        fetch(`http://127.0.0.1:8000/delete-drive/${id}`, {
             method:'DELETE'
         }).then((res)=>{
             res.json().then((data)=>{
@@ -38,10 +38,11 @@ const ManageVaccinationDrive = () => {
         })
     }
 
-    function selectDrive(id) {
-        console.log(drives[id-1]);
-        let data = drives[id-1]; 
-      
+    function selectDrive(drive) {
+
+        // console.log(drive);
+        let data = drive; 
+        // console.log(data);
         setDateOfVaccine(data.dateofvaccine);
         setPlace(data.place);
         setVaccineCount(data.vaccinecount);
@@ -49,26 +50,41 @@ const ManageVaccinationDrive = () => {
       //alert(data.id );
     }
 
-      
+    function getCookie(name) {
+        let cookieValue = null;
+        if (document.cookie && document.cookie !== '') {
+            const cookies = document.cookie.split(';');
+            for (let i = 0; i < cookies.length; i++) {
+                const cookie = cookies[i].trim();
+                // Does this cookie string begin with the name we want?
+                if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                    cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                    break;
+                }
+            }
+        }
+        return cookieValue;  
+    }
 
     function updateDrive(id){
-        //let item = [driveId-1];       
+        //let item = [driveId-1];    
+        const csrftoken = getCookie('csrftoken');   
         let data = {dateofvaccine,place,vaccinecount,driveId};
-       
-        fetch(`http://localhost:8000/drives/${driveId}`, {
+        alert('im clicked')
+        fetch(`http://127.0.0.1:8000/drive-detail/${driveId}/`, {
             method:'PUT',
             headers: {
                 'Accept':'application/json',
-                'Content-Type':'application/json'
+                'Content-Type':'application/json',
+                 Authorization: 'Token token',
             },
             body:JSON.stringify(data)
         }).then((res)=>{
             res.json().then((data)=>{
-            console.warn(data);
             getList();
            })
         })
-        console.log(dateofvaccine,place,vaccinecount,driveId);
+        // console.log(dateofvaccine,place,vaccinecount,driveId);
     }
 
     return ( 
@@ -109,7 +125,7 @@ const ManageVaccinationDrive = () => {
                                     <td>{drive.dateofvaccine}</td>
                                     <td>{drive.place}</td>
                                     <td>{drive.vaccinecount}</td>
-                                    {  (new Date(drive.dateofvaccine) > new Date()) ? (<td> <button id="updateDisable" onClick={() => selectDrive(drive.id)
+                                    {  (new Date(drive.dateofvaccine) > new Date()) ? (<td> <button id="updateDisable" onClick={(e) => selectDrive(drive)
                                 }>Update</button></td>) : (<td> <button disabled> Update</button></td>)  }
                                 
                                 </tr>

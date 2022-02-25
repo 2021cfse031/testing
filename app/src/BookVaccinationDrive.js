@@ -9,8 +9,9 @@ const BookVaccinationDrive = () => {
                     setBookingSuccess('Booking Successful');
                 }
 
-                const inititalValues = { dateofvaccine:"", place:"", vaccinecount:"" };
+                const inititalValues = { id:0, dateofvaccine:"", place:"", vaccinecount:0 };
                 const [formValues, setFormValues] = useState(inititalValues);
+                const [formData, setformData] = useState([]);
                 const [formErrors, setFormErrors] = useState({});
                 const [isSubmit, setIsSubmit] = useState(false);
       
@@ -22,16 +23,23 @@ const BookVaccinationDrive = () => {
                 const handleSubmit = (e) => {
                     e.preventDefault();
                     setFormErrors(validate(formValues));
-                    // console.log(formErrors);
+                    console.log(formValues.place);
+                    let dump = {
+                        "id":formValues.id,
+                        "dateofvaccine":formValues.dateofvaccine,  
+                        "place":formValues.place,  
+                        "vaccinecount":parseInt(formValues.vaccinecount)
+                    }
+                    console.log('dump=',dump)
                     if (formValues.dateofvaccine && formValues.place && formValues.vaccinecount ) {                    
                     setIsSubmit(true);
-                    fetch('http://localhost:8000/drives', {
+                    fetch('http://127.0.0.1:8000/drivelist/', {
                       method:'POST',
                       headers: { "Content-Type": "application/json" },
-                      body: JSON.stringify(formValues),
+                      body: JSON.stringify(dump),
                     }).then((res) => {
-                        console.log(res);
-                        setBookingSuccess('Successfully Added Student Data');
+                        console.log('res',res);
+                        setBookingSuccess('Booked Vaccination Drive');
                     })
                     } else {
                         console.log("Please fill all details")
@@ -39,6 +47,26 @@ const BookVaccinationDrive = () => {
                 };
 
                 useEffect(() => {
+                    fetch('http://127.0.0.1:8000/drivelist/')
+                    .then(res => { 
+                        return res.json() })
+                    .then(data => {
+                        // console.log('data',data);
+                        formValues.id = data.length + 1;
+                        // console.log('formdata',formValues);
+                    } )
+                }, []);
+
+                useEffect(() => {
+                    // fetch('', {
+                    //     method:'GET'
+                    // }).then((response) => 
+                    //     console.log('response',response),
+                    //     setformData(response),
+                    //     formValues.id = formData.length,
+                    //     console.log('formdata',formData),
+                    //     console.log(formValues.id)
+                    // )
                     console.log(formErrors);
                     if(Object.keys(formErrors).length === 0 && handleSubmit)
                     {
@@ -91,7 +119,7 @@ const BookVaccinationDrive = () => {
                         <div className="field">
                         <label>Number of Vaccines: &nbsp;
                         <select name="vaccinecount"
-                        value={formValues.vaccinecount} 
+                        value={parseInt(formValues.vaccinecount)} 
                         onChange={handleChange} >
                             <option>Please Select</option>
                             <option>250</option>

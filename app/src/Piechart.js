@@ -9,7 +9,7 @@ const Piechart = () => {
     const [chart, setChart] = useState({})
 
     useEffect(() => {
-        fetch('http://localhost:8001/students')
+        fetch('http://127.0.0.1:8000/list/')
         .then(res => { 
             return res.json() })
         .then(data => {
